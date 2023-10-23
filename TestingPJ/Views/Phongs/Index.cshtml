@@ -1,0 +1,100 @@
+﻿@model IEnumerable<TestingPJ.Models.Phong>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Available Rooms</title>
+    <script src="/js/room.js"></script>
+</head>
+<!-- Add the room availability check form here -->
+<h2>Check Available Rooms</h2>
+<label for="ngayDen">Check-in Date:</label>
+<input type="date" id="ngayDen">
+
+<label for="ngayDi">Check-out Date:</label>
+<input type="date" id="ngayDi">
+
+<button onclick="fetchAvailableRooms()">Check Availability</button>
+
+<h2>Available Rooms:</h2>
+<ul id="availableRooms">
+    <!-- List of available rooms will be populated here -->
+</ul>
+<!-- End of room availability check form -->
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.LoaiPhong)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.GiaCa)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ViewPhong)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SoGiuong)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.LoaiPhongTam)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.LoaiGiuong)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.KichThuoc)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.BanCong)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.LoaiPhong)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.GiaCa)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ViewPhong)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SoGiuong)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LoaiPhongTam)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LoaiGiuong)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.KichThuoc)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.BanCong)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.TenPhong">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.TenPhong">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.TenPhong">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+    <!-- Razor Syntax để tạo nút đặt phòng -->
+    <a href="@Url.Action("BookRoom", "Phongs")" class="btn btn-primary">Đặt Phòng</a>
+
+</table>

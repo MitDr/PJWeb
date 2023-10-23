@@ -1,0 +1,33 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+        <meta charset="UTF-8">
+        <title>Available Rooms</title>
+        <script src="/js/BookRoom.js"></script>
+</head>
+<body>
+
+    <h2>Check Available Rooms</h2>
+    <label for="ngayDen">Check-in Date:</label>
+    <input type="date" id="ngayDen">
+
+    <label for="ngayDi">Check-out Date:</label>
+    <input type="date" id="ngayDi">
+
+    <button onclick="fetchAvailableRooms()">Check Availability</button>
+
+    <h2>Available Rooms:</h2>
+    <ul id="availableRooms">
+        <!-- List of available rooms will be populated here -->
+    </ul>
+    <form id="bookingForm">
+        <label for="soNguoi">Số người:</label>
+        <input type="number" id="soNguoi" name="soNguoi" required>
+
+        <label for="yeuCau">Yêu cầu đặc biệt:</label>
+        <textarea id="yeuCau" name="yeuCau"></textarea>
+
+    </form>
+    <script src="BookRoom.js"></script>
+</body>
+</html>
