@@ -206,7 +206,7 @@ namespace TestingPJ.Controllers
         //}
 
         [HttpGet]
-        public IActionResult GetKhachhangList(int page = 1, string maKhach = "", string cccd = "")
+        public IActionResult GetKhachhangList(int page = 1, string maKhach = "", string cccd = "", int? phanLoai = null)
         {
             int pageSize = 5;
             var query = _context.Khachhangs.AsQueryable();
@@ -218,6 +218,10 @@ namespace TestingPJ.Controllers
             if (!string.IsNullOrEmpty(cccd))
             {
                 query = query.Where(k => k.Cccd.Contains(cccd));
+            }
+            if (phanLoai.HasValue)
+            {
+                query = query.Where(k => k.PhanLoai == phanLoai.Value);
             }
 
             var khachhangs = query.Skip((page - 1) * pageSize).Take(pageSize).ToList();

@@ -15,6 +15,7 @@
     <div id="searchForm" style="display:none;">
         <input type="text" id="maKhach" placeholder="Mã Khách">
         <input type="text" id="cccd" placeholder="CCCD">
+        <input type="text" id="phanLoai" placeholder="Phân Loại">
         <button id="searchButton">Tìm kiếm</button>
     </div>
 </div>
@@ -124,10 +125,10 @@
 
     $(document).ready(function () {
             // Update loadKhachhangList function
-        function loadKhachhangList(pageNumber, maKhach = '', cccd = '') {
+        function loadKhachhangList(pageNumber, maKhach = '', cccd = '',phanLoai = null) {
             $.ajax({
                 url: '@Url.Action("GetKhachhangList", "Khachhangs")',
-                data: { page: pageNumber, maKhach: maKhach, cccd: cccd },
+                data: { page: pageNumber, maKhach: maKhach, cccd: cccd,phanLoai:phanLoai  },
                 type: 'GET',
                 success: function (response) {
                     $('#khachhangListContainer').html(response);
@@ -144,7 +145,8 @@
         $('#searchButton').click(function () {
             const maKhach = $('#maKhach').val();
             const cccd = $('#cccd').val();
-            loadKhachhangList(currentPage, maKhach, cccd);
+            const phanLoai = $('#phanLoai').val();
+            loadKhachhangList(currentPage, maKhach, cccd, phanLoai);
         });
 
         // Attach click event listeners
