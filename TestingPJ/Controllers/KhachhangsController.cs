@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing.Printing;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using TestingPJ.Models;
@@ -19,12 +21,18 @@ namespace TestingPJ.Controllers
         }
 
         // GET: Khachhangs
-        public async Task<IActionResult> Index()
+        //public async Task<IActionResult> Index()
+        //{
+        //      return _context.Khachhangs != null ? 
+        //                  View(await _context.Khachhangs.ToListAsync()) :
+        //                  Problem("Entity set 'Quan_ly_buong_phongContext.Khachhangs'  is null.");
+        //}
+        public IActionResult Index(int page = 1, int pageSize = 5)
         {
-              return _context.Khachhangs != null ? 
-                          View(await _context.Khachhangs.ToListAsync()) :
-                          Problem("Entity set 'Quan_ly_buong_phongContext.Khachhangs'  is null.");
+            var khachhangs = _context.Khachhangs.Skip((page - 1) * pageSize).Take(pageSize).ToList();
+            return View(khachhangs);
         }
+
 
         // GET: Khachhangs/Details/5
         public async Task<IActionResult> Details(string id)
@@ -182,5 +190,40 @@ namespace TestingPJ.Controllers
 
             return Ok(results);
         }
+
+        public IActionResult loadkhachhangs(int page = 1, int pagesize = 5)
+        {
+            var khachhangs = _context.Khachhangs.Skip((page - 1) * pagesize).Take(pagesize).ToList();
+            return PartialView("_khachhanglist", khachhangs);
+        }
+
+        //[HttpGet]
+        //public IActionResult LoadKhachhangs(int page = 1, int pageSize = 5)
+        //{
+        //    var khachhangs = _context.Khachhangs.Skip((page - 1) * pageSize).Take(pageSize).ToList();
+        //    var data = khachhangs.Skip((page - 1) * pageSize).Take(pageSize).ToList();
+        //    return PartialView("_khachhanglist", data);
+        //}
+
+        [HttpGet]
+        public IActionResult GetKhachhangList(int page = 1, string maKhach = "", string cccd = "")
+        {
+            int pageSize = 5;
+            var query = _context.Khachhangs.AsQueryable();
+
+            if (!string.IsNullOrEmpty(maKhach))
+            {
+                query = query.Where(k => k.MaKhachHang.Contains(maKhach));
+            }
+            if (!string.IsNullOrEmpty(cccd))
+            {
+                query = query.Where(k => k.Cccd.Contains(cccd));
+            }
+
+            var khachhangs = query.Skip((page - 1) * pageSize).Take(pageSize).ToList();
+            return PartialView("_KhachhangList", khachhangs);
+        }
+
+
     }
 }

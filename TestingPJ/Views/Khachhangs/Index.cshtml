@@ -4,81 +4,231 @@
     ViewData["Title"] = "Index";
 }
 
+<head>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
 <h1>Index</h1>
+
+<div>
+    <a href="@Url.Action("SearchCustomers", "KhachHangs")" class="btn btn-primary">Tìm kiếm khách</a>
+    <button id="toggleSearch">Tìm kiếm khách</button>
+    <div id="searchForm" style="display:none;">
+        <input type="text" id="maKhach" placeholder="Mã Khách">
+        <input type="text" id="cccd" placeholder="CCCD">
+        <button id="searchButton">Tìm kiếm</button>
+    </div>
+</div>
 
 <p>
     <a asp-action="Create">Create New</a>
 </p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Ho)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Dem)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Ten)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.NgaySinh)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Cccd)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.GioiTinh)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.PhanLoai)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Sdt)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Email)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Ho)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Dem)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Ten)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.NgaySinh)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Cccd)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.GioiTinh)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PhanLoai)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Sdt)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Email)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.MaKhachHang">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.MaKhachHang">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.MaKhachHang">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-    <a href="@Url.Action("SearchCustomers", "KhachHangs")" class="btn btn-primary">Tìm kiếm khách</a>
-</table>
+
+<div id="khachhangListContainer">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Ho)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Dem)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Ten)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.NgaySinh)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Cccd)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.GioiTinh)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.PhanLoai)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Sdt)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Email)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Ho)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Dem)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Ten)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.NgaySinh)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Cccd)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.GioiTinh)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.PhanLoai)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Sdt)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Email)
+                    </td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.MaKhachHang">Edit</a> |
+                        <a asp-action="Details" asp-route-id="@item.MaKhachHang">Details</a> |
+                        <a asp-action="Delete" asp-route-id="@item.MaKhachHang">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+
+
+
+@* 
+<div id="paginationContainer">
+    <button onclick="loadKhachhangs(1)">First</button>
+    <button onclick="loadKhachhangs(currentPage - 1)">Previous</button>
+    <button onclick="loadKhachhangs(currentPage + 1)">Next</button>
+    <button onclick="loadKhachhangs(totalPages)">Last</button>
+</div> *@
+@* <div id="paginationContainer">
+    
+</div> *@
+<div id="paginationContainer">
+    <button id="prevPage">Previous</button>
+    <span id="currentPage">1</span>
+    <button id="nextPage">Next</button>
+
+</div>
+
+<script>
+    let currentPage = 1; // Initialize current page
+
+    $(document).ready(function () {
+            // Update loadKhachhangList function
+        function loadKhachhangList(pageNumber, maKhach = '', cccd = '') {
+            $.ajax({
+                url: '@Url.Action("GetKhachhangList", "Khachhangs")',
+                data: { page: pageNumber, maKhach: maKhach, cccd: cccd },
+                type: 'GET',
+                success: function (response) {
+                    $('#khachhangListContainer').html(response);
+                    $('#currentPage').text(pageNumber);
+                    currentPage = pageNumber;
+                }
+            });
+        }
+        $('#toggleSearch').click(function () {
+            $('#searchForm').toggle();
+        });
+
+        // Search function
+        $('#searchButton').click(function () {
+            const maKhach = $('#maKhach').val();
+            const cccd = $('#cccd').val();
+            loadKhachhangList(currentPage, maKhach, cccd);
+        });
+
+        // Attach click event listeners
+        $('#prevPage').click(function () {
+            if (currentPage - 1 > 0) {
+                loadKhachhangList(currentPage - 1);
+            }
+        });
+
+        $('#nextPage').click(function () {
+            loadKhachhangList(currentPage + 1);
+        });
+
+        loadKhachhangList(currentPage);  // Load the first page initially
+
+        
+    });
+    // let currentPage = 1;
+    // const totalPages = 2;
+    // function updatePagination() {
+    //     // Disable "First" and "Previous" buttons if on the first page
+    //     if (currentPage === 1) {
+    //         $("button[onclick='loadKhachhangs(1)']").prop("disabled", true);
+    //         $("button[onclick='loadKhachhangs(currentPage - 1)']").prop("disabled", true);
+    //     } else {
+    //         $("button[onclick='loadKhachhangs(1)']").prop("disabled", false);
+    //         $("button[onclick='loadKhachhangs(currentPage - 1)']").prop("disabled", false);
+    //     }
+
+    //     // Disable "Next" and "Last" buttons if on the last page
+    //     if (currentPage === totalPages) {
+    //         $("button[onclick='loadKhachhangs(currentPage + 1)']").prop("disabled", true);
+    //         $("button[onclick='loadKhachhangs(totalPages)']").prop("disabled", true);
+    //     } else {
+    //         $("button[onclick='loadKhachhangs(currentPage + 1)']").prop("disabled", false);
+    //         $("button[onclick='loadKhachhangs(totalPages)']").prop("disabled", false);
+    //     }
+    // }
+
+
+    // $(document).ready(function () {
+    //     loadKhachhangs(currentPage);
+    //     updatePagination();
+    // });
+
+    // function loadKhachhangs(pageNumber) {
+    //     $.ajax({
+    //         url: '@Url.Action("LoadKhachhangs", "Khachhangs")',
+    //         data: { page: pageNumber },
+    //         type: 'GET',
+    //         success: function (data) {
+    //             $('#khachhangListContainer').html(data);
+    //             currentPage = pageNumber;  // Update current page
+    //             updatePagination();  // Update pagination buttons
+    //         }   
+    //     });
+    // }
+
+    // let currentPage = 1;
+    // let totalPages = 0;
+
+    // function loadKhachhangs(pageNumber) {
+    //     $.ajax({
+    //         url: '@Url.Action("LoadKhachhangs", "Khachhangs")',
+    //         data: { pageNumber: pageNumber },
+    //         type: 'GET',
+    //         success: function (data) {
+    //             $('#khachhangListContainer').html(data);
+    //             // currentPage = pageNumber;
+    //             updatePagination();  // Cập nhật nút phân trang
+    //         }
+    //     });
+    // }
+    
+    // function updatePagination(totalPages, currentPage) {
+    //     let buttons = '';
+    //     for (let i = 1; i <= totalPages; i++) {
+    //         buttons += `<button onclick="loadKhachhangs(${i})">${i}</button>`;
+    //     }
+    //     $('#paginationContainer').html(buttons);
+    // }
+
+    // $(document).ready(function () {
+    //     loadKhachhangs(1);
+    // });
+
+</script>
